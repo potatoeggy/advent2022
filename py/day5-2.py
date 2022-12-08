@@ -31,4 +31,3 @@ while True:
     for c in reversed([grid[orig].popleft() for _ in range(nums_to_move)]):
         grid[dest].appendleft(c)
     print("".join((" " if len(d) == 0 else d[0]) for d in grid))
-

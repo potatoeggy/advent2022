@@ -3,9 +3,11 @@ from typing import Optional
 
 FILE_SIZE_LIMIT = 100000
 
+
 @dataclass
 class File:
     size: int
+
 
 @dataclass
 class Folder:
@@ -15,9 +17,12 @@ class Folder:
 
     def get_sizes(self, contents: list) -> int:
         self_files = sum(file.size for file in self.files)
-        self_folders = sum(folder.get_sizes(contents) for folder in self.folders.values())
+        self_folders = sum(
+            folder.get_sizes(contents) for folder in self.folders.values()
+        )
         contents.append(self_files + self_folders)
         return self_files + self_folders
+
 
 def main() -> None:
     cd = Folder([], {}, None)
@@ -52,9 +57,8 @@ def main() -> None:
                 break
             case _:
                 pass
-        
-    print("Criterion:", sum(filter(lambda x: x <= FILE_SIZE_LIMIT, all_folders)))
 
+    print("Criterion:", sum(filter(lambda x: x <= FILE_SIZE_LIMIT, all_folders)))
 
 
 if __name__ == "__main__":
