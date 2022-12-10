@@ -1,19 +1,12 @@
 use std::{collections::HashSet, io::stdin};
 
 fn main() {
-    let mut buf = String::from("Sentinel");
+    let mut buf = String::new();
     let mut head: (i32, i32) = (0, 0);
     let mut tail = (0, 0);
     let mut tail_history: HashSet<(i32, i32)> = HashSet::new();
 
-    loop {
-        buf.clear();
-        stdin().read_line(&mut buf).unwrap();
-
-        if buf.trim() == "" {
-            break;
-        }
-
+    while stdin().read_line(&mut buf).unwrap() > 1 {
         let dir = buf.chars().next().expect("Invalid direction");
         let len: usize = buf[1..].trim().parse().expect("Invalid length");
 
@@ -34,6 +27,7 @@ fn main() {
 
             tail_history.insert(tail);
         }
+        buf.clear();
     }
     println!("{}", tail_history.len());
 }
