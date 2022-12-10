@@ -75,14 +75,7 @@ fn main() {
 
     // we're just gonna be *real* *real* lazy
     // and do some copy pasting
-    let mut tail_pos2 = (0, 0);
-    let mut tail_pos3 = (0, 0);
-    let mut tail_pos4 = (0, 0);
-    let mut tail_pos5 = (0, 0);
-    let mut tail_pos6 = (0, 0);
-    let mut tail_pos7 = (0, 0);
-    let mut tail_pos8 = (0, 0);
-    let mut tail_pos9 = (0, 0);
+    let mut tails = vec![(0, 0); 9];
 
     let mut tail_history: HashSet<(i32, i32)> = HashSet::new();
 
@@ -96,23 +89,18 @@ fn main() {
                 _ => unreachable!(),
             }
 
-            tail_pos.navigate_tail(head_pos);
-            tail_pos2.navigate_tail(tail_pos);
-            tail_pos3.navigate_tail(tail_pos2);
-            tail_pos4.navigate_tail(tail_pos3);
-            tail_pos5.navigate_tail(tail_pos4);
-            tail_pos6.navigate_tail(tail_pos5);
-            tail_pos7.navigate_tail(tail_pos6);
-            tail_pos8.navigate_tail(tail_pos7);
-            tail_pos9.navigate_tail(tail_pos8);
-
-            tail_history.insert(tail_pos9);
+            for i in 0..tails.len() {
+                let old_tail = *tails.get((i as i32 - 1) as usize).unwrap_or(&head_pos);
+                tails[i].navigate_tail(old_tail);
+            }
 
             // surely there's a nicer way to do this
-            max_pos.0 = max_pos.0.max(tail_pos9.0);
-            max_pos.1 = max_pos.1.max(tail_pos9.1);
-            min_pos.0 = min_pos.0.min(tail_pos9.0);
-            min_pos.1 = min_pos.1.min(tail_pos9.1);
+            let tail9 = tails[tails.len() - 1];
+            tail_history.insert(tail9);
+            max_pos.0 = max_pos.0.max(tail9.0);
+            max_pos.1 = max_pos.1.max(tail9.1);
+            min_pos.0 = min_pos.0.min(tail9.0);
+            min_pos.1 = min_pos.1.min(tail9.1);
         }
     }
     println!("{}", tail_history.len());
