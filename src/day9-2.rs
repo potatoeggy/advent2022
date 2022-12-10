@@ -28,8 +28,8 @@ fn main() {
             break;
         }
 
-        let dir = buf.chars().next().unwrap();
-        let len: usize = buf[1..].trim().parse().unwrap();
+        let dir = buf.chars().next().expect("Invalid direction");
+        let len: usize = buf[1..].trim().parse().expect("Invalid length");
 
         for _ in 0..len {
             match dir {
@@ -44,7 +44,7 @@ fn main() {
                 let old_tail = *tails.get((i as i32 - 1) as usize).unwrap_or(&head_pos);
                 tails[i].navigate_tail(old_tail);
             }
-            tail_history.insert(*tails.last().unwrap());
+            tail_history.insert(*tails.last().expect("Empty tail vector"));
         }
     }
     println!("{}", tail_history.len());
