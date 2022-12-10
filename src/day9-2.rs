@@ -16,7 +16,7 @@ impl Snake for (i32, i32) {
 
 fn main() {
     let mut buf = String::from("Sentinel");
-    let mut head_pos = (0, 0);
+    let mut head = (0, 0);
     let mut tails = vec![(0, 0); 9];
     let mut tail_history: HashSet<(i32, i32)> = HashSet::new();
 
@@ -33,15 +33,15 @@ fn main() {
 
         for _ in 0..len {
             match dir {
-                'U' => head_pos.1 += 1,
-                'D' => head_pos.1 -= 1,
-                'L' => head_pos.0 -= 1,
-                'R' => head_pos.0 += 1,
+                'U' => head.1 += 1,
+                'D' => head.1 -= 1,
+                'L' => head.0 -= 1,
+                'R' => head.0 += 1,
                 _ => unreachable!(),
             }
 
             for i in 0..tails.len() {
-                let old_tail = *tails.get((i as i32 - 1) as usize).unwrap_or(&head_pos);
+                let old_tail = *tails.get((i as i32 - 1) as usize).unwrap_or(&head);
                 tails[i].navigate_tail(old_tail);
             }
             tail_history.insert(*tails.last().expect("Empty tail vector"));
